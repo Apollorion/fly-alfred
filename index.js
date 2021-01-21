@@ -37,9 +37,9 @@ function fly_filter(){
     // Find matches and then sort them alphabetically
     let items = alfy.inputMatches(reorg, 'search')
         .sort(function(a, b) {
-            var textA = a.sub.toUpperCase();
-            var textB = b.sub.toUpperCase();
-            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            let textA = a.hint === "" ? a.sub : `[${a.hint}] ${a.sub}`;
+            let textB = b.hint === "" ? b.sub : `[${b.hint}] ${b.sub}`;
+            return textA.localeCompare(textB);
         })
         .map(element => ({
             title: element.hint === "" ? element.sub : `[${element.hint}] ${element.sub}`,
