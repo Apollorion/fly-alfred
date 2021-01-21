@@ -27,6 +27,7 @@ dev/
   - stackoverflow -> stackoverflow.com
 personal/
   - apollorion -> apollorion.com
+npm -> npmjs.com
 ```
 
 When you do `fly dev` you will see:
@@ -34,3 +35,6 @@ When you do `fly dev` you will see:
 
 When you do `fly github` or `fly dev/important github` you will see:
 <img src="https://github.com/Apollorion/fly/blob/master/search2.png?raw=true">
+
+When you do `fly npm` you will see:
+<img src="https://github.com/Apollorion/fly/blob/master/search3.png?raw=true">

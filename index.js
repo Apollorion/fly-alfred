@@ -42,7 +42,7 @@ function fly_filter(){
             return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
         })
         .map(element => ({
-            title: element.sub,
+            title: element.hint === "" ? element.sub : `[${element.hint}] ${element.sub}`,
             subtitle: element.url,
             arg: JSON.stringify(element)
         }));
@@ -51,13 +51,13 @@ function fly_filter(){
     alfy.output(items);
 }
 
-function reorganize_for_alfred(data, folder_name=undefined){
+function reorganize_for_alfred(data, folder_name=""){
     let newData = []
 
     for(let item of data){
         if(item.type === "folder"){
             let fname = folder_name + "/" + item.name
-            if(folder_name === undefined){
+            if(folder_name === ""){
                 fname = item.name;
             }
 
@@ -65,13 +65,14 @@ function reorganize_for_alfred(data, folder_name=undefined){
             newData = [...newData, ...org2];
         } else if(item.type === "url"){
             let fname = folder_name + " " + item.name
-            if(folder_name === undefined){
+            if(folder_name === ""){
                 fname = item.name;
             }
 
             newData.push({
                 search: fname,
                 sub: item.name,
+                hint: folder_name.toLowerCase(),
                 url: item.url
             });
         }
