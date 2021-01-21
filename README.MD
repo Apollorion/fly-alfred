@@ -13,41 +13,24 @@
 
 # Usage
 
-Fly has a concept of a `site`, a `subtext` and `url`. First it will search for your `site` and narrow down the results based on a `subtext`.
+Fly will search your google chrome bookmarks based on your bookmarks bar directory tree.
 
 ### Fly
 Usage: `fly {search}`
 Fly to a website.
 
-When searching, you can search for a site OR subtext. For instance, say you have the following saved in your fly history:
+Say for example this is your google chrome bookmark bar:
 ```
-# site 1
-site: github
-sub: fly
-url: https://github.com/apollorion/fly
-
-# site 2
-site: github
-sub: npm
-url: https://github.com/npm/cli
+dev/
+  - important/
+     - github -> github.com
+  - stackoverflow -> stackoverflow.com
+personal/
+  - apollorion -> apollorion.com
 ```
 
-When you do `fly github` you will see:
+When you do `fly dev` you will see:
 <img src="https://github.com/Apollorion/fly/blob/master/search1.png?raw=true">
 
-When you do `fly npm` or `fly github npm` you will see:
+When you do `fly github` or `fly dev/important github` you will see:
 <img src="https://github.com/Apollorion/fly/blob/master/search2.png?raw=true">
-
-### Fly-Add
-Usage: `fly-add {site} {sub} {url}`
-Add websites to fly to later.
-
-Example: `fly-add github fly https://github.com/apollorion/fly`
-<img src="https://github.com/Apollorion/fly/blob/master/add.png?raw=true">
-
-### Fly-Delete
-Usage: `fly-delete {search}`
-Delete websites you no longer wish to fly to.
-
-Example: `fly-delete github npm`
-<img src="https://github.com/Apollorion/fly/blob/master/delete.png?raw=true">

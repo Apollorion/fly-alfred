@@ -1,7 +1,11 @@
 const alfy = require('alfy');
 const opn = require('opn');
 const fs = require('fs');
-const data = require('./data.json');
+
+const username = require("os").userInfo().username
+let rawdata = fs.readFileSync(`/Users/${username}/Library/Application Support/Google/Chrome/Default/Bookmarks`);
+let data = JSON.parse(rawdata);
+data = data.roots.bookmark_bar.children;
 
 switch(process.argv[3]){
     case "fly_filter":
@@ -12,18 +16,6 @@ switch(process.argv[3]){
         fly_process();
         break;
 
-    case "add_filter":
-        add_filter();
-        break;
-
-    case "add_process":
-        add_process();
-        break;
-
-    case "delete_process":
-        delete_process();
-        break;
-
     default:
         throw new Error("Unknown Ask");
 }
@@ -32,20 +24,15 @@ function fly_filter(){
 
     if(data.length === 0){
         alfy.output([{
-            title: "No sites added",
-            subtitle: "Add a new site via: 'fly-add {site} {sub} {url}'",
+            title: "No sites bookmarked",
+            subtitle: "No sites in google chrome bookmarks",
             arg: 0
         }]);
         return;
     }
 
     // Reorganize the array into a format that is searchable by alfred
-    const reorg = data.map(element => ({
-        search: `${element.site} ${element.sub}`,
-        sub: element.sub,
-        url: element.url,
-        original: element
-    }));
+    const reorg = reorganize_for_alfred(data);
 
     // Find matches and then sort them alphabetically
     let items = alfy.inputMatches(reorg, 'search')
@@ -64,47 +51,36 @@ function fly_filter(){
     alfy.output(items);
 }
 
+function reorganize_for_alfred(data, folder_name=undefined){
+    let newData = []
+
+    for(let item of data){
+        if(item.type === "folder"){
+            let fname = folder_name + "/" + item.name
+            if(folder_name === undefined){
+                fname = item.name;
+            }
+
+            let org2 = reorganize_for_alfred(item.children, fname);
+            newData = [...newData, ...org2];
+        } else if(item.type === "url"){
+            let fname = folder_name + " " + item.name
+            if(folder_name === undefined){
+                fname = item.name;
+            }
+
+            newData.push({
+                search: fname,
+                sub: item.name,
+                url: item.url
+            });
+        }
+    }
+
+    return newData;
+}
+
 function fly_process(){
     const input = JSON.parse(alfy.input);
     opn(input.url);
-}
-
-function add_filter(){
-    const input = alfy.input.split(" ");
-    if(input.length !== 3){
-        alfy.output([{
-            title: "Unparseable",
-            subtitle: "Input must be in the format: 'fly-add {site} {sub} {url}'",
-            arg: 0
-        }]);
-    } else {
-        alfy.output([{
-            title: `Adding new site: ${input[0]} ${input[1]}`,
-            subtitle: `with url: ${input[2]}`,
-            arg: JSON.stringify({ site: input[0], sub: input[1], url: input[2] })
-        }]);
-    }
-}
-
-function add_process(){
-    const input = JSON.parse(alfy.input);
-    data.push(input);
-    fs.writeFileSync('data.json', JSON.stringify(data));
-}
-
-function delete_process(){
-    let input = JSON.parse(alfy.input);
-    input = input.original;
-
-    let i=0;
-    for(let item of data){
-        console.log(item);
-        if(item.url === input.url && item.sub == input.sub && item.site == input.site){
-            data.splice(i, 1);
-            break;
-        }
-        i++;
-    }
-
-    fs.writeFileSync('data.json', JSON.stringify(data));
 }
