@@ -47,6 +47,16 @@ function fly_filter(){
             arg: JSON.stringify(element)
         }));
 
+    if(items.length === 0){
+        items = [
+            {
+                title: "Uh Oh...",
+                subtitle: "No matches found 😕",
+                arg: JSON.stringify({url: "http://fly.apollorion.com"})
+            }
+        ]
+    }
+
     // Return items
     alfy.output(items);
 }
