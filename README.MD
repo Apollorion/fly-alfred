@@ -4,6 +4,9 @@
 <p align="center">FLY - Fast bookmarks in an Alfred workflow.</p>
 <p align="center">http://fly.apollorion.com/</p>
 
+# Deprecated
+I am no longer maintaining this extension. For a better experience that is still maintained checkout: https://github.com/apollorion/fly
+
 # Installation
 
 1. Right click [here](https://github.com/Apollorion/fly/raw/master/Fly.alfredworkflow) and save to desktop.
