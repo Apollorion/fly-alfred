@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://github.com/Apollorion/fly/blob/master/icon.png?raw=true">
+   <img src="https://github.com/Apollorion/fly-alfred/blob/master/icon.png?raw=true">
 </p>
 <p align="center">FLY - Fast bookmarks in an Alfred workflow.</p>
 <p align="center">http://fly.apollorion.com/</p>
